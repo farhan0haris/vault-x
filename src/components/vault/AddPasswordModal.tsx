@@ -143,13 +143,15 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                     <div className="space-y-2">
                       <label className="text-xs font-bold tracking-widest text-muted-foreground uppercase">Password</label>
                       <Input 
-                        type="password" 
+                        type="text" 
                         placeholder="••••••••" 
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
                         className="bg-background"
-                        autoComplete="new-password"
+                        style={{ WebkitTextSecurity: "disc" } as React.CSSProperties}
+                        autoComplete="off"
                         data-lpignore="true"
+                        spellCheck={false}
                       />
                     </div>
                   </>
