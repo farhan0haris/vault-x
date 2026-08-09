@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <img src="https://raw.githubusercontent.com/farhan0haris/vault-x/main/public/file.svg" alt="VaultX Logo" width="80" height="80">
+  <h3 align="center">VaultX Security</h3>
+  <p align="center">
+    A premium, modern cybersecurity dashboard and password manager built with Next.js.
+    <br />
+    <a href="https://vault-x-ennz.vercel.app"><strong>View Live Demo »</strong></a>
+  </p>
+</div>
 
-## Getting Started
+## 🛡️ About VaultX
 
-First, run the development server:
+VaultX is a production-ready, highly polished password management interface designed to feel like a premium SaaS product. It features a seamless dark/light mode, smooth micro-interactions, responsive layouts, and a zero-knowledge security aesthetic.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### 🌟 Key Features
+- **Premium UI/UX:** Built with Tailwind CSS and Framer Motion for buttery-smooth animations and glassmorphism effects.
+- **Adaptive Theming:** Complete semantic color system that perfectly balances a deep navy dark mode and a crisp, cool neutral light mode.
+- **Responsive Dashboard:** Fully responsive bento-grid dashboard layout with sidebar navigation, security scores, and password auditing tools.
+- **Next.js App Router:** Fast, optimized routing and structure using React Server Components.
+- **Production Ready:** Polished interactions, hover states, semantic HTML, and zero dead links.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Components:** [shadcn/ui](https://ui.shadcn.com/) & [Lucide Icons](https://lucide.dev/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/)
+- **Deployment:** [Vercel](https://vercel.com/)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+To run this project locally on your machine:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/farhan0haris/vault-x.git
+   cd vault-x
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Run the development server**
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+4. **Open the app**
+   Navigate to [http://localhost:3000](http://localhost:3000) in your browser to see the application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📄 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+*Designed & Built by [@farhan0haris](https://github.com/farhan0haris)*
