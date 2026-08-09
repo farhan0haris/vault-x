@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Lock, CreditCard, FileText, Loader2 } from "lucide-react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { createPortal } from "react-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -15,6 +16,9 @@ interface AddPasswordModalProps {
 }
 
 export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModalProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const [type, setType] = useState<"login" | "card" | "note">("login");
   const [title, setTitle] = useState("");
   const [username, setUsername] = useState("");
@@ -24,8 +28,8 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
   const [cardExp, setCardExp] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!title) return;
 
     setLoading(true);
@@ -69,7 +73,9 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
     }
   };
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -219,6 +225,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
