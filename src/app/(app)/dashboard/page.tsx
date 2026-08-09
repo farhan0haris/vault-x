@@ -134,8 +134,6 @@ export default function Dashboard() {
         </motion.div>
       </div>
 
-      </div>
-
       {/* Recent Items List */}
       <div className="space-y-6 pt-4">
         <div className="flex items-center justify-between">
