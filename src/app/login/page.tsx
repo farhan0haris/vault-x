@@ -54,7 +54,7 @@ export default function LoginPage() {
             <Button 
               onClick={handleGoogleSignIn} 
               disabled={loading}
-              className="w-full h-14 text-base font-semibold shadow-lg shadow-primary/20 flex items-center justify-center space-x-3 transition-all hover:scale-[1.02] active:scale-[0.98]"
+              className="w-full h-14 text-base font-semibold shadow-lg shadow-primary/20 flex items-center justify-center space-x-3 transition-all hover:scale-[1.02] active:scale-[0.98] group"
             >
               {loading ? (
                 <Loader2 className="h-5 w-5 animate-spin" />
@@ -67,7 +67,7 @@ export default function LoginPage() {
                     <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
                   </svg>
                   <span>Sign in with Google</span>
-                  <ArrowRight className="h-4 w-4 ml-2 opacity-50" />
+                  <ArrowRight className="h-4 w-4 ml-2 opacity-50 transition-transform group-hover:translate-x-1" />
                 </>
               )}
             </Button>

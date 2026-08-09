@@ -25,8 +25,8 @@ export default function LandingPage() {
           <Button variant="ghost" asChild className="hidden sm:inline-flex text-xs font-bold tracking-widest text-muted-foreground uppercase">
             <Link href="/login">Login</Link>
           </Button>
-          <Button asChild className="shadow-lg shadow-primary/20">
-            <Link href="/login">Get Started <ArrowRight className="ml-2 h-4 w-4" /></Link>
+          <Button asChild className="shadow-lg shadow-primary/20 group">
+            <Link href="/login">Get Started <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
           </Button>
         </div>
       </header>
@@ -56,8 +56,8 @@ export default function LandingPage() {
               </p>
               
               <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
-                <Button size="lg" className="w-full sm:w-auto font-semibold shadow-[0_0_20px_rgba(255,59,48,0.2)]" asChild>
-                  <Link href="/login">Get Started Free <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                <Button size="lg" className="w-full sm:w-auto font-semibold shadow-[0_0_20px_rgba(255,59,48,0.2)] group" asChild>
+                  <Link href="/login">Get Started Free <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" /></Link>
                 </Button>
                 <Button size="lg" variant="secondary" className="w-full sm:w-auto font-semibold" asChild>
                   <a href="#product-preview">See Live Demo</a>
@@ -362,10 +362,8 @@ export default function LandingPage() {
       <footer className="border-t border-border/50 bg-background py-10 px-6 lg:px-12">
         <div className="mx-auto max-w-6xl flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between text-xs font-bold tracking-widest text-muted-foreground uppercase">
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2 mb-2">
-              <img src="/logo.png" alt="VaultX Logo" className="h-6 w-auto object-contain grayscale opacity-80" />
-              <span className="text-foreground font-bold">VaultX</span>
-            </div>
+            <img src="/logo.png" alt="VaultX Logo" className="h-6 w-auto object-contain grayscale opacity-80" />
+            <span className="text-foreground font-bold">VaultX</span>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-foreground transition-colors duration-200">Privacy</Link>
