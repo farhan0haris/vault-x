@@ -1,10 +1,56 @@
+"use client"
+
 import Link from "next/link"
-import { ShieldCheck, Plus, MoreHorizontal, Copy, User } from "lucide-react"
+import { ShieldCheck, Plus, MoreHorizontal, CreditCard, FileText, Loader2, Code2 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { CircularProgress } from "@/components/ui/circular-progress"
+import { useState, useEffect } from "react"
+import { collection, onSnapshot, query, where } from "firebase/firestore"
+import { db } from "@/lib/firebase"
+import { useAuth } from "@/components/providers/AuthProvider"
+
+interface VaultItem {
+  id: string
+  type: "login" | "card" | "note"
+  title: string
+  username?: string
+  cardholder?: string
+  createdAt: number
+}
 
 export default function Dashboard() {
+  const { user } = useAuth()
+  const [recentItems, setRecentItems] = useState<VaultItem[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!user) return
+
+    const q = query(
+      collection(db, "vaultItems"), 
+      where("userId", "==", user.uid)
+    )
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const itemsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as VaultItem))
+      // Sort client-side to avoid composite index requirement
+      itemsData.sort((a, b) => b.createdAt - a.createdAt)
+      setRecentItems(itemsData.slice(0, 4))
+      setLoading(false)
+    })
+
+    return () => unsubscribe()
+  }, [user])
+
+
+
+  const getIcon = (type: string) => {
+    if (type === "card") return CreditCard
+    if (type === "note") return FileText
+    return Code2
+  }
+
   return (
     <div className="flex flex-col space-y-10 animate-in fade-in duration-700">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -13,7 +59,7 @@ export default function Dashboard() {
             Overview
           </h1>
           <p className="mt-2 text-sm font-medium tracking-wide text-muted-foreground">
-            Welcome back, Alex. Your vault is currently <span className="text-emerald-500 font-bold">Optimal</span>.
+            Welcome back. Your vault is currently <span className="text-emerald-500 font-bold">Optimal</span>.
           </p>
         </div>
         <div className="flex gap-3">
@@ -128,42 +174,43 @@ export default function Dashboard() {
             <div>Password</div>
             <div className="text-right">Actions</div>
           </div>
-          <div className="divide-y divide-border/50">
-            {[
-              { name: "GitHub", user: "alex.dev@example.com", status: "none", icon: "GH" },
-              { name: "AWS Console", user: "admin_prod", status: "amber", icon: "AW" },
-              { name: "ProtonMail", user: "secure.alex@proton.me", status: "emerald", icon: "PM" },
-              { name: "Stripe", user: "alex@startup.io", status: "none", icon: "ST" },
-            ].map((item) => (
-              <div key={item.name} className="grid grid-cols-[1fr_2fr_1fr_auto] gap-4 p-5 items-center hover:bg-accent/30 transition-colors group">
-                <div className="flex items-center space-x-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-background border border-border/50 text-xs font-bold shadow-sm">
-                    {item.icon}
-                  </div>
-                  <span className="font-semibold flex items-center gap-2">
-                    {item.name}
-                    {item.status !== "none" && (
-                      <span className={`h-2 w-2 rounded-full ${item.status === "amber" ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.5)]" : "bg-emerald-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"}`} />
-                    )}
-                  </span>
-                </div>
-                <div className="text-sm font-medium text-muted-foreground">{item.user}</div>
-                <div className="flex items-center text-muted-foreground tracking-[0.2em] text-xs">
-                  ••••••••••••
-                </div>
-                <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Button variant="ghost" size="icon" className="h-9 w-9 rounded-[10px] bg-background border border-border/50 shadow-sm hover:bg-accent">
-                    <User className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-9 w-9 rounded-[10px] bg-background border border-border/50 shadow-sm hover:bg-accent">
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                  <Button variant="ghost" size="icon" className="h-9 w-9 rounded-[10px] bg-background border border-border/50 shadow-sm hover:bg-accent">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </div>
+          <div className="divide-y divide-border/50 min-h-[200px]">
+            {loading ? (
+              <div className="flex h-32 items-center justify-center">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
               </div>
-            ))}
+            ) : recentItems.length === 0 ? (
+              <div className="flex h-32 flex-col items-center justify-center text-center">
+                <p className="text-sm text-muted-foreground">No items in your vault yet.</p>
+              </div>
+            ) : (
+              recentItems.map((item) => {
+                const Icon = getIcon(item.type)
+                return (
+                  <div key={item.id} className="grid grid-cols-[1fr_2fr_1fr_auto] gap-4 p-5 items-center hover:bg-accent/30 transition-colors group">
+                    <div className="flex items-center space-x-4">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-[10px] bg-background border border-border/50 text-xs font-bold shadow-sm">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <span className="font-semibold flex items-center gap-2">
+                        {item.title}
+                      </span>
+                    </div>
+                    <div className="text-sm font-medium text-muted-foreground">
+                      {item.username || item.cardholder || '-'}
+                    </div>
+                    <div className="flex items-center text-muted-foreground tracking-[0.2em] text-xs">
+                      ••••••••••••
+                    </div>
+                    <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <Button variant="ghost" size="icon" className="h-9 w-9 rounded-[10px] bg-background border border-border/50 shadow-sm hover:bg-accent">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
+                )
+              })
+            )}
           </div>
         </div>
       </div>
