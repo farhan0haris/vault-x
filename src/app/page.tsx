@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Shield, EyeOff, Key, MonitorSmartphone, Activity, ArrowRight, ShieldCheck, Lock, Zap, Search, User, FolderLock, RefreshCw, Star, Clock, Settings } from "lucide-react"
+import { EyeOff, Key, MonitorSmartphone, ArrowRight, ShieldCheck, Lock, Zap, Search, User, FolderLock, RefreshCw, Star, Clock, Settings } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/theme-toggle"

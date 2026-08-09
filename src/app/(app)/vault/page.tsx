@@ -4,12 +4,10 @@ import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { useAuth } from "@/components/providers/AuthProvider"
 import {
-  MoreVertical,
   Star,
   Copy,
   Search,
   Code2,
-  MessageSquare,
   CreditCard,
   FileText,
   Lock,

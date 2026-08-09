@@ -48,6 +48,7 @@ export function TopNav({ onMenuClick }: TopNavProps) {
           <span className="sr-only">Notifications</span>
         </Button>
         <button className="h-8 w-8 overflow-hidden rounded-full border border-border/50 ring-2 ring-transparent transition-all hover:ring-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ml-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=001B2A"
             alt="Profile Avatar"

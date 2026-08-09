@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Lock, Mail, Loader2, ArrowRight } from "lucide-react"
+import { Lock, Loader2, ArrowRight } from "lucide-react"
 import { signInWithPopup } from "firebase/auth"
 import { auth, googleProvider } from "@/lib/firebase"
 import { useRouter } from "next/navigation"
