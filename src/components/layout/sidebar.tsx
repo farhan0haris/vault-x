@@ -12,6 +12,7 @@ import {
   HelpCircle,
   LogOut,
   Plus,
+  Home,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -20,6 +21,7 @@ import { AddPasswordModal } from "@/components/vault/AddPasswordModal"
 import { auth } from "@/lib/firebase"
 
 const navItems = [
+  { name: "Home", href: "/dashboard", icon: Home },
   { name: "All Items", href: "/vault", icon: Lock },
   { name: "Favorites", href: "/vault?filter=favorites", icon: Star },
   { name: "Recent", href: "/vault?filter=recent", icon: Clock },
