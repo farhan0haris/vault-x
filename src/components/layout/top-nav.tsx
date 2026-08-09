@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { Search, Bell, Menu, ShieldCheck } from "lucide-react"
 import { Input } from "@/components/ui/input"
@@ -16,6 +17,7 @@ interface TopNavProps {
 }
 
 export function TopNav({ onMenuClick }: TopNavProps) {
+  const router = useRouter()
   const { user } = useAuth()
   const [avatarSeed, setAvatarSeed] = useState("Alex")
 
@@ -61,14 +63,25 @@ export function TopNav({ onMenuClick }: TopNavProps) {
       </div>
 
       <div className="flex items-center space-x-2 sm:space-x-4">
-        <div className="relative hidden w-64 sm:block lg:w-96">
+        <form 
+          className="relative hidden w-64 sm:block lg:w-96"
+          onSubmit={(e) => {
+            e.preventDefault()
+            const formData = new FormData(e.currentTarget)
+            const query = formData.get("search")
+            if (query) {
+              router.push(`/vault?q=${encodeURIComponent(query.toString())}`)
+            }
+          }}
+        >
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
+            name="search"
             type="search"
             placeholder="Search vault..."
             className="pl-9 bg-card border-border/50 focus-visible:ring-primary rounded-full h-9"
           />
-        </div>
+        </form>
         <ThemeToggle />
         
         <DropdownMenu.Root>

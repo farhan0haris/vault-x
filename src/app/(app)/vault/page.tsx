@@ -59,7 +59,14 @@ function VaultPageContent() {
   const [items, setItems] = useState<VaultItem[]>([])
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState("All")
-  const [searchQuery, setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "")
+
+  useEffect(() => {
+    const q = searchParams.get("q")
+    if (q !== null) {
+      setSearchQuery(q)
+    }
+  }, [searchParams])
 
   useEffect(() => {
     if (!user) return;
