@@ -18,7 +18,10 @@ interface AddPasswordModalProps {
 
 export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModalProps) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   const { user } = useAuth();
 
@@ -37,7 +40,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
 
     setLoading(true);
     try {
-      const payload: any = {
+      const payload: Record<string, string | number | boolean> = {
         userId: user.uid,
         type,
         title,
@@ -113,7 +116,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                   <button
                     key={t.id}
                     type="button"
-                    onClick={() => setType(t.id as any)}
+                    onClick={() => setType(t.id as "login" | "card" | "note")}
                     className={`flex-1 flex items-center justify-center space-x-2 py-2 text-sm font-medium rounded-md transition-all ${
                       type === t.id ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
                     }`}

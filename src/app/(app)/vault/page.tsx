@@ -93,10 +93,12 @@ function VaultPageContent() {
   }
 
   // Filter items
+  // eslint-disable-next-line react-hooks/purity
+  const now = Date.now()
   const filteredItems = items.filter(item => {
     // 1. Sidebar filter
     if (filter === "favorites" && !item.isFavorite) return false
-    if (filter === "recent" && (Date.now() - item.createdAt > 7 * 24 * 60 * 60 * 1000)) return false // Last 7 days
+    if (filter === "recent" && (now - item.createdAt > 7 * 24 * 60 * 60 * 1000)) return false // Last 7 days
     if (filter === "trash" && !item.isTrash) return false
     if (filter !== "trash" && item.isTrash) return false // Don't show trash items in other views
 

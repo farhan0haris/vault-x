@@ -50,7 +50,7 @@ export default function LandingPage() {
               </h1>
               
               <p className="text-lg text-muted-foreground sm:text-xl leading-relaxed max-w-lg font-medium">
-                VaultX employs absolute zero-knowledge, end-to-end encryption. We don't have the keys—only you do.
+                VaultX employs absolute zero-knowledge, end-to-end encryption. We don&apos;t have the keys—only you do.
               </p>
               
               <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
