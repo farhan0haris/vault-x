@@ -16,16 +16,19 @@ import {
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import { AddPasswordModal } from "@/components/vault/AddPasswordModal"
+import { useState } from "react"
 
 const navItems = [
   { name: "All Items", href: "/vault", icon: Lock },
-  { name: "Favorites", href: "/vault", icon: Star },
-  { name: "Recent", href: "/vault", icon: Clock },
-  { name: "Trash", href: "/vault", icon: Trash2 },
+  { name: "Favorites", href: "/vault?filter=favorites", icon: Star },
+  { name: "Recent", href: "/vault?filter=recent", icon: Clock },
+  { name: "Trash", href: "/vault?filter=trash", icon: Trash2 },
 ]
 
 export function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname()
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
     <div
@@ -50,13 +53,15 @@ export function Sidebar({ className }: { className?: string }) {
           </span>
         </div>
 
-        <Button asChild className="w-full justify-start shadow-lg shadow-primary/20">
-          <Link href="/vault" className="space-x-2">
+        <Button className="w-full justify-start shadow-lg shadow-primary/20" onClick={() => setIsModalOpen(true)}>
+          <div className="space-x-2 flex items-center">
             <Plus className="h-4 w-4" />
             <span>Add New Password</span>
-          </Link>
+          </div>
         </Button>
       </div>
+
+      <AddPasswordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
       <div className="flex-1 overflow-y-auto py-2">
         <nav className="flex flex-col space-y-1 px-4">
