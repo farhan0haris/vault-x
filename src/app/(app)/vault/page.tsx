@@ -1,5 +1,8 @@
 "use client"
 
+import { toast } from "sonner"
+import { motion } from "framer-motion"
+
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { useAuth } from "@/components/providers/AuthProvider"
@@ -84,9 +87,10 @@ function VaultPageContent() {
     await deleteDoc(doc(db, "vaultItems", id))
   }
 
-  const copyToClipboard = (text?: string) => {
+  const copyToClipboard = (text?: string, label?: string) => {
     if (text) {
       navigator.clipboard.writeText(text)
+      toast.success(`${label || 'Item'} copied to clipboard`)
     }
   }
 
@@ -176,11 +180,27 @@ function VaultPageContent() {
           </div>
         </div>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <motion.div 
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.1 }
+            }
+          }}
+        >
           {filteredItems.map((item) => {
             const Icon = getIcon(item.type)
             return (
-              <div
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0 }
+                }}
+                whileHover={{ scale: 1.02 }}
                 key={item.id}
                 className="group relative flex flex-col justify-between overflow-hidden rounded-xl border border-border/50 bg-card p-6 shadow-sm transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/5"
               >
@@ -225,14 +245,14 @@ function VaultPageContent() {
                           <p className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Username</p>
                           <div className="flex items-center justify-between rounded-lg bg-background border border-border/50 px-3 py-2">
                             <span className="text-sm">{item.username || '-'}</span>
-                            <Copy className="h-4 w-4 text-muted-foreground cursor-pointer hover:text-foreground" onClick={() => copyToClipboard(item.username)} />
+                            <Copy className="h-4 w-4 text-muted-foreground cursor-pointer hover:text-foreground" onClick={() => copyToClipboard(item.username, "Username")} />
                           </div>
                         </div>
                         <div className="space-y-1">
                           <p className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Password</p>
                           <div className="flex items-center justify-between rounded-lg bg-background border border-border/50 px-3 py-2">
                             <span className="text-xs tracking-[0.2em] text-muted-foreground">••••••••••••••</span>
-                            <Copy className="h-4 w-4 text-muted-foreground cursor-pointer hover:text-foreground" onClick={() => copyToClipboard(item.password)} />
+                            <Copy className="h-4 w-4 text-muted-foreground cursor-pointer hover:text-foreground" onClick={() => copyToClipboard(item.password, "Password")} />
                           </div>
                         </div>
                       </>
@@ -247,7 +267,7 @@ function VaultPageContent() {
                           <p className="text-[10px] font-bold tracking-widest text-muted-foreground uppercase">Number</p>
                           <div className="flex items-center justify-between rounded-lg bg-background border border-border/50 px-3 py-2">
                             <span className="font-mono text-sm tracking-widest">{item.cardNumber || '-'}</span>
-                            <Copy className="h-4 w-4 text-muted-foreground cursor-pointer hover:text-foreground" onClick={() => copyToClipboard(item.cardNumber)} />
+                            <Copy className="h-4 w-4 text-muted-foreground cursor-pointer hover:text-foreground" onClick={() => copyToClipboard(item.cardNumber, "Card Number")} />
                           </div>
                         </div>
                       </>
@@ -284,10 +304,10 @@ function VaultPageContent() {
                     {new Date(item.createdAt).toLocaleDateString()}
                   </span>
                 </div>
-              </div>
+              </motion.div>
             )
           })}
-        </div>
+        </motion.div>
       )}
     </div>
   )

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useRouter, usePathname, useSearchParams } from "next/navigation"
 import { motion } from "framer-motion"
 import {
   Lock,
@@ -17,7 +17,6 @@ import {
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { AddPasswordModal } from "@/components/vault/AddPasswordModal"
-import { useState } from "react"
 import { auth } from "@/lib/firebase"
 
 const navItems = [
@@ -29,7 +28,22 @@ const navItems = [
 
 export function Sidebar({ className }: { className?: string }) {
   const pathname = usePathname()
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  
+  const isModalOpen = searchParams.get("modal") === "new"
+
+  const openModal = () => {
+    const params = new URLSearchParams(searchParams)
+    params.set("modal", "new")
+    router.replace(`${pathname}?${params.toString()}`)
+  }
+
+  const closeModal = () => {
+    const params = new URLSearchParams(searchParams)
+    params.delete("modal")
+    router.replace(`${pathname}?${params.toString()}`)
+  }
 
   return (
     <div
@@ -54,7 +68,7 @@ export function Sidebar({ className }: { className?: string }) {
           </span>
         </div>
 
-        <Button className="w-full justify-start shadow-lg shadow-primary/20" onClick={() => setIsModalOpen(true)}>
+        <Button className="w-full justify-start shadow-lg shadow-primary/20" onClick={openModal}>
           <div className="space-x-2 flex items-center">
             <Plus className="h-4 w-4" />
             <span>Add New Password</span>
@@ -62,7 +76,7 @@ export function Sidebar({ className }: { className?: string }) {
         </Button>
       </div>
 
-      <AddPasswordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <AddPasswordModal isOpen={isModalOpen} onClose={closeModal} />
 
       <div className="flex-1 overflow-y-auto py-2">
         <nav className="flex flex-col space-y-1 px-4">
@@ -109,14 +123,14 @@ export function Sidebar({ className }: { className?: string }) {
       <div className="p-4 border-t border-border/50">
         <nav className="flex flex-col space-y-1">
           <Link
-            href="/dashboard"
+            href="/settings"
             className="flex items-center space-x-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <Settings className="h-4 w-4" />
             <span>Settings</span>
           </Link>
           <Link
-            href="/dashboard"
+            href="/help"
             className="flex items-center space-x-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
           >
             <HelpCircle className="h-4 w-4" />

@@ -1,5 +1,7 @@
 "use client"
 
+import { motion } from "framer-motion"
+
 import Link from "next/link"
 import { ShieldCheck, Plus, MoreHorizontal, CreditCard, FileText, Loader2, Code2 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -51,6 +53,15 @@ export default function Dashboard() {
     return Code2
   }
 
+  const [isScanning, setIsScanning] = useState(false)
+
+  const handleRunScan = () => {
+    setIsScanning(true)
+    setTimeout(() => {
+      setIsScanning(false)
+    }, 2000)
+  }
+
   return (
     <div className="flex flex-col space-y-10 animate-in fade-in duration-700">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -63,11 +74,18 @@ export default function Dashboard() {
           </p>
         </div>
         <div className="flex gap-3">
-          <Button variant="secondary" className="font-semibold shadow-sm">
-            <Plus className="mr-2 h-4 w-4" /> Add Item
+          <Button variant="secondary" className="font-semibold shadow-sm" asChild>
+            <Link href="?modal=new">
+              <Plus className="mr-2 h-4 w-4" /> Add Item
+            </Link>
           </Button>
-          <Button variant="default" className="font-semibold shadow-md">
-            <ShieldCheck className="mr-2 h-4 w-4" /> Run Scan
+          <Button variant="default" className="font-semibold shadow-md" onClick={handleRunScan} disabled={isScanning}>
+            {isScanning ? (
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            ) : (
+              <ShieldCheck className="mr-2 h-4 w-4" />
+            )}
+            {isScanning ? "Scanning..." : "Run Scan"}
           </Button>
         </div>
       </div>
@@ -76,7 +94,14 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-[140px]">
         
         {/* Main Health Widget (Spans 2 cols, 2 rows) */}
-        <Card className="md:col-span-2 lg:col-span-2 row-span-2 bg-gradient-to-br from-card to-card/50 flex flex-col justify-between">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          whileHover={{ scale: 1.02 }}
+          className="md:col-span-2 lg:col-span-2 row-span-2 flex"
+        >
+        <Card className="flex-1 bg-gradient-to-br from-card to-card/50 flex flex-col justify-between shadow-lg shadow-emerald-500/5 border-emerald-500/20">
           <CardContent className="p-8 h-full flex flex-col justify-between relative z-10">
             <div className="flex justify-between items-start">
               <div>
@@ -106,9 +131,17 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Total Items (Spans 1 col, 1 row) */}
-        <Card className="col-span-1 row-span-1 flex flex-col justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          whileHover={{ scale: 1.05 }}
+          className="col-span-1 row-span-1 flex"
+        >
+        <Card className="flex-1 flex flex-col justify-center shadow-md">
           <CardContent className="p-6">
             <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase mb-1">Total Items</p>
             <p className="font-heading text-4xl font-bold">248</p>
@@ -120,9 +153,17 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Recent Device (Spans 1 col, 2 rows) */}
-        <Card className="col-span-1 row-span-2 hidden lg:flex flex-col">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          whileHover={{ scale: 1.02 }}
+          className="col-span-1 row-span-2 hidden lg:flex"
+        >
+        <Card className="flex-1 flex flex-col shadow-md">
           <CardContent className="p-6 flex flex-col h-full">
             <h3 className="text-xs font-semibold tracking-widest text-muted-foreground uppercase mb-6">Recent Logins</h3>
             <div className="flex-1 space-y-6">
@@ -143,18 +184,27 @@ export default function Dashboard() {
             </div>
           </CardContent>
         </Card>
+        </motion.div>
 
         {/* Risk Indicators (Spans 1 col, 1 row) */}
-        <Card className="col-span-1 row-span-1 flex flex-col justify-center bg-primary/5 border-primary/20">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          whileHover={{ scale: 1.05 }}
+          className="col-span-1 row-span-1 flex"
+        >
+        <Card className="flex-1 flex flex-col justify-center bg-primary/5 border-primary/20 shadow-md shadow-primary/10">
           <CardContent className="p-6">
             <div className="flex justify-between items-start">
               <p className="text-xs font-semibold tracking-widest text-primary uppercase mb-1">Risk Alerts</p>
-              <div className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+              <div className="h-2 w-2 rounded-full bg-primary animate-pulse shadow-[0_0_10px_rgba(255,59,48,0.8)]" />
             </div>
             <p className="font-heading text-4xl font-bold text-foreground mt-1">3</p>
             <p className="text-sm font-medium text-muted-foreground mt-2">Passwords found in recent data breaches.</p>
           </CardContent>
         </Card>
+        </motion.div>
 
       </div>
 
