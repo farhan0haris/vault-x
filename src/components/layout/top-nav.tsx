@@ -50,7 +50,10 @@ export function TopNav({ onMenuClick }: TopNavProps) {
           <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle Menu</span>
         </Button>
-        <span className="font-heading text-xl font-bold">VaultX</span>
+        <div className="flex items-center space-x-2">
+          <img src="/logo.png" alt="VaultX Logo" className="h-6 w-auto object-contain" />
+          <span className="font-heading text-xl font-bold">VaultX</span>
+        </div>
       </div>
 
       <div className="hidden flex-1 items-center space-x-4 lg:flex">

@@ -32,7 +32,10 @@ export default function LoginPage() {
       <div className="absolute top-1/4 left-1/3 w-[400px] h-[400px] bg-emerald-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="z-10 w-full max-w-md space-y-8 animate-in slide-in-from-bottom-4 duration-700 fade-in">
-        <div className="text-center">
+        <div className="flex flex-col items-center text-center">
+          <div className="inline-flex items-center justify-center p-4 rounded-3xl bg-primary/10 text-primary mb-4 ring-1 ring-primary/20 shadow-2xl shadow-primary/20">
+            <img src="/logo.png" alt="VaultX Logo" className="h-12 w-auto object-contain drop-shadow-md" />
+          </div>
           <h1 className="font-heading text-5xl font-bold tracking-tight text-foreground">
             VaultX
           </h1>

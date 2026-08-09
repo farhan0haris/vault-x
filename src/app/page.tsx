@@ -9,8 +9,10 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/30">
       <header className="sticky top-0 z-50 flex h-16 w-full items-center justify-between border-b border-border/50 bg-[rgba(255,255,255,0.82)] dark:bg-background/80 px-6 lg:px-12 backdrop-blur-sm">
         <div className="flex items-center gap-2">
-          <Lock className="h-6 w-6 text-foreground" />
-          <span className="font-heading text-xl font-bold">VaultX</span>
+          <div className="flex items-center space-x-2">
+            <img src="/logo.png" alt="VaultX Logo" className="h-6 w-auto object-contain" />
+            <span className="font-heading text-xl font-bold">VaultX</span>
+          </div>
         </div>
         <nav className="hidden items-center space-x-8 text-sm font-medium lg:flex text-muted-foreground uppercase tracking-widest text-[10px]">
           <Link href="/dashboard" className="hover:text-foreground transition-colors duration-200">Dashboard</Link>
@@ -146,8 +148,10 @@ export default function LandingPage() {
                 {/* Mini Sidebar */}
                 <div className="hidden md:flex flex-col w-[220px] border-r border-border/50 bg-muted/20 p-5">
                   <div className="flex items-center gap-2 mb-6">
-                    <Lock className="h-5 w-5 text-foreground" />
-                    <span className="font-heading text-lg font-bold">VaultX</span>
+                    <div className="flex items-center gap-2">
+                      <img src="/logo.png" alt="VaultX Logo" className="h-5 w-auto object-contain" />
+                      <span className="font-heading text-lg font-bold">VaultX</span>
+                    </div>
                   </div>
                   <div className="space-y-1">
                     {[
@@ -358,8 +362,10 @@ export default function LandingPage() {
       <footer className="border-t border-border/50 bg-background py-10 px-6 lg:px-12">
         <div className="mx-auto max-w-6xl flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between text-xs font-bold tracking-widest text-muted-foreground uppercase">
           <div className="flex items-center gap-2">
-            <Lock className="h-4 w-4 text-foreground" />
-            <span className="text-foreground">VaultX</span>
+            <div className="flex items-center gap-2 mb-2">
+              <img src="/logo.png" alt="VaultX Logo" className="h-6 w-auto object-contain grayscale opacity-80" />
+              <span className="text-foreground font-bold">VaultX</span>
+            </div>
           </div>
           <div className="flex flex-wrap items-center gap-x-6 gap-y-2">
             <Link href="/privacy" className="hover:text-foreground transition-colors duration-200">Privacy</Link>

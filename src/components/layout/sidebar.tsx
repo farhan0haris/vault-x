@@ -55,7 +55,7 @@ export function Sidebar({ className }: { className?: string }) {
       <div className="flex flex-col p-6 space-y-8">
         <div className="flex flex-col space-y-1">
           <Link href="/dashboard" className="flex items-center space-x-2 text-foreground">
-            <Lock className="h-6 w-6" />
+            <img src="/logo.png" alt="VaultX Logo" className="h-6 w-auto object-contain" />
             <span className="font-heading text-2xl font-bold tracking-tight">
               VaultX
             </span>
