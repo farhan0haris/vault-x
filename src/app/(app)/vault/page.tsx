@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
+import { useAuth } from "@/components/providers/AuthProvider"
 import {
   MoreVertical,
   Star,
@@ -18,11 +19,12 @@ import {
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { collection, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from "firebase/firestore"
+import { collection, onSnapshot, query, where, doc, updateDoc, deleteDoc } from "firebase/firestore"
 import { db } from "@/lib/firebase"
 
 interface VaultItem {
   id: string
+  userId?: string
   type: "login" | "card" | "note"
   title: string
   username?: string
@@ -51,6 +53,7 @@ export default function VaultPage() {
 function VaultPageContent() {
   const searchParams = useSearchParams()
   const filter = searchParams.get("filter") || "all" // all, favorites, recent, trash
+  const { user } = useAuth()
 
   const [items, setItems] = useState<VaultItem[]>([])
   const [loading, setLoading] = useState(true)
@@ -58,15 +61,18 @@ function VaultPageContent() {
   const [searchQuery, setSearchQuery] = useState("")
 
   useEffect(() => {
-    const q = query(collection(db, "vaultItems"), orderBy("createdAt", "desc"))
+    if (!user) return;
+    
+    const q = query(collection(db, "vaultItems"), where("userId", "==", user.uid))
     const unsubscribe = onSnapshot(q, (snapshot) => {
       const itemsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as VaultItem))
+      itemsData.sort((a, b) => b.createdAt - a.createdAt)
       setItems(itemsData)
       setLoading(false)
     })
 
     return () => unsubscribe()
-  }, [])
+  }, [user])
 
   const toggleFavorite = async (id: string, current: boolean) => {
     await updateDoc(doc(db, "vaultItems", id), { isFavorite: !current })

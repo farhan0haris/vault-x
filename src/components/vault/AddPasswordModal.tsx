@@ -6,6 +6,7 @@ import { X, Lock, CreditCard, FileText, Loader2 } from "lucide-react";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { createPortal } from "react-dom";
+import { useAuth } from "@/components/providers/AuthProvider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +20,8 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  const { user } = useAuth();
+
   const [type, setType] = useState<"login" | "card" | "note">("login");
   const [title, setTitle] = useState("");
   const [username, setUsername] = useState("");
@@ -30,11 +33,12 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
 
   const handleSubmit = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!title) return;
+    if (!title || !user) return;
 
     setLoading(true);
     try {
       const payload: any = {
+        userId: user.uid,
         type,
         title,
         isFavorite: false,

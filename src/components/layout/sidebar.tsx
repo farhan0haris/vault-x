@@ -18,6 +18,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { AddPasswordModal } from "@/components/vault/AddPasswordModal"
 import { useState } from "react"
+import { auth } from "@/lib/firebase"
 
 const navItems = [
   { name: "All Items", href: "/vault", icon: Lock },
@@ -121,10 +122,13 @@ export function Sidebar({ className }: { className?: string }) {
             <HelpCircle className="h-4 w-4" />
             <span>Help</span>
           </Link>
-          <Link href="/login" className="flex w-full items-center space-x-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-primary outline-none focus-visible:ring-2 focus-visible:ring-ring mt-4">
+          <button 
+            onClick={() => auth.signOut()} 
+            className="flex w-full items-center space-x-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent/50 hover:text-primary outline-none focus-visible:ring-2 focus-visible:ring-ring mt-4"
+          >
             <LogOut className="h-4 w-4" />
             <span>Lock Vault</span>
-          </Link>
+          </button>
         </nav>
       </div>
     </div>
