@@ -114,7 +114,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                 ))}
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-xs font-bold tracking-widest text-muted-foreground uppercase">Title</label>
                   <Input 
@@ -123,6 +123,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                     value={title} 
                     onChange={(e) => setTitle(e.target.value)} 
                     className="bg-background"
+                    autoComplete="off"
                   />
                 </div>
 
@@ -135,6 +136,8 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                         value={username} 
                         onChange={(e) => setUsername(e.target.value)}
                         className="bg-background" 
+                        autoComplete="off"
+                        data-lpignore="true"
                       />
                     </div>
                     <div className="space-y-2">
@@ -145,6 +148,8 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                         value={password} 
                         onChange={(e) => setPassword(e.target.value)} 
                         className="bg-background"
+                        autoComplete="new-password"
+                        data-lpignore="true"
                       />
                     </div>
                   </>
@@ -159,6 +164,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                         value={username} 
                         onChange={(e) => setUsername(e.target.value)} 
                         className="bg-background"
+                        autoComplete="off"
                       />
                     </div>
                     <div className="space-y-2">
@@ -168,6 +174,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                         value={cardNumber} 
                         onChange={(e) => setCardNumber(e.target.value)} 
                         className="bg-background font-mono"
+                        autoComplete="off"
                       />
                     </div>
                     <div className="space-y-2">
@@ -177,6 +184,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                         value={cardExp} 
                         onChange={(e) => setCardExp(e.target.value)} 
                         className="bg-background w-1/2"
+                        autoComplete="off"
                       />
                     </div>
                   </>
@@ -191,6 +199,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                       value={content}
                       onChange={(e) => setContent(e.target.value)}
                       className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                      autoComplete="off"
                     />
                   </div>
                 )}
@@ -199,11 +208,11 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
                   <Button type="button" variant="ghost" onClick={onClose}>
                     Cancel
                   </Button>
-                  <Button type="submit" disabled={loading || !title} className="bg-primary text-primary-foreground">
+                  <Button type="button" onClick={handleSubmit} disabled={loading || !title} className="bg-primary text-primary-foreground">
                     {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Save to Vault"}
                   </Button>
                 </div>
-              </form>
+              </div>
             </div>
           </motion.div>
         </>
