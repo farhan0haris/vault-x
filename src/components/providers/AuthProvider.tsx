@@ -33,11 +33,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (loading) return;
 
-    const isAuthRoute = pathname === "/login";
+    const publicRoutes = ["/", "/login", "/privacy", "/terms"];
+    const isPublicRoute = publicRoutes.includes(pathname);
 
-    if (!user && !isAuthRoute) {
+    if (!user && !isPublicRoute) {
       router.push("/login");
-    } else if (user && isAuthRoute) {
+    } else if (user && pathname === "/login") {
       router.push("/dashboard");
     }
   }, [user, loading, pathname, router]);

@@ -9,6 +9,29 @@ import { createPortal } from "react-dom";
 import { useAuth } from "@/components/providers/AuthProvider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { z } from "zod";
+import { toast } from "sonner";
+
+const vaultItemSchema = z.discriminatedUnion("type", [
+  z.object({
+    type: z.literal("login"),
+    title: z.string().min(1, "Title is required").max(100, "Title too long"),
+    username: z.string().max(200, "Username too long").optional(),
+    password: z.string().max(200, "Password too long").optional(),
+  }),
+  z.object({
+    type: z.literal("card"),
+    title: z.string().min(1, "Title is required").max(100, "Title too long"),
+    cardholder: z.string().max(100, "Cardholder name too long").optional(),
+    cardNumber: z.string().max(20, "Card number too long").optional(),
+    exp: z.string().max(10, "Expiration too long").optional(),
+  }),
+  z.object({
+    type: z.literal("note"),
+    title: z.string().min(1, "Title is required").max(100, "Title too long"),
+    content: z.string().max(10000, "Note content too long").optional(),
+  })
+]);
 
 interface AddPasswordModalProps {
   isOpen: boolean;
@@ -40,7 +63,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
 
     setLoading(true);
     try {
-      const payload: Record<string, string | number | boolean> = {
+      const basePayload = {
         userId: user.uid,
         type,
         title,
@@ -49,20 +72,31 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
         createdAt: Date.now(),
       };
 
+      let specificData: any = {};
       if (type === "login") {
-        payload.username = username;
-        payload.password = password;
+        specificData = { username, password };
       } else if (type === "card") {
-        payload.cardholder = username; // repurpose username state for cardholder
-        payload.cardNumber = cardNumber;
-        payload.exp = cardExp;
+        specificData = { cardholder: username, cardNumber, exp: cardExp };
       } else if (type === "note") {
-        payload.content = content;
+        specificData = { content };
       }
 
-      await addDoc(collection(db, "vaultItems"), payload);
+      // Validate strict schema
+      const validationResult = vaultItemSchema.safeParse({ type, title, ...specificData });
+      
+      if (!validationResult.success) {
+        toast.error((validationResult.error as any).errors[0].message);
+        setLoading(false);
+        return;
+      }
+
+      const finalPayload = { ...basePayload, ...validationResult.data };
+
+      await addDoc(collection(db, "vaultItems"), finalPayload);
       
       if (onSuccess) onSuccess();
+      
+      toast.success("Item securely added to vault");
       
       // Reset form
       setTitle("");
@@ -74,7 +108,7 @@ export function AddPasswordModal({ isOpen, onClose, onSuccess }: AddPasswordModa
       onClose();
     } catch (error) {
       console.error("Error adding document: ", error);
-      alert("Failed to save item. See console for details.");
+      toast.error("An error occurred while saving the item securely.");
     } finally {
       setLoading(false);
     }

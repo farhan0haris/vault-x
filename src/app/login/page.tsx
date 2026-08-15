@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Lock, Loader2, ArrowRight } from "lucide-react"
 import { signInWithPopup } from "firebase/auth"
 import { auth, googleProvider } from "@/lib/firebase"
+import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
@@ -20,7 +21,7 @@ export default function LoginPage() {
       router.push("/dashboard")
     } catch (error) {
       console.error("Authentication failed", error)
-      alert("Failed to authenticate with Google. Please try again.")
+      toast.error("Failed to authenticate with Google. Please try again.")
       setLoading(false)
     }
   }
